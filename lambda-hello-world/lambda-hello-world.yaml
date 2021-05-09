@@ -1,0 +1,43 @@
+
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: hello-world
+      Description: A simple hello world lambda function
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      MemorySize: 128
+      Runtime: python3.8
+      Timeout: 30
+      Code:
+        ZipFile: |
+          import json
+          from datetime import datetime
+          
+          def handler(event, context):
+              print("Event: %s" % json.dumps(event))
+              print("Current Timestamp: %s" % datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+  
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: root
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:*
+            Resource: arn:aws:logs:*:*:*

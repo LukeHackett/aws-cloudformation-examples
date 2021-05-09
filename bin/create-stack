@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# Obtains the full directory name of this script
+# https://stackoverflow.com/a/246128
+SCRIPT_DIR="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ))"
+
+# Obtain details about the deployment
+AWS_PROFILE="${AWS_PROFILE:-personal}"
+STACK_NAME="$1"
+STACK_TEMPLATE="${SCRIPT_DIR}/${STACK_NAME}/${STACK_NAME}.yaml"
+
+# Ensure project folder has been provided
+if [[ "${STACK_NAME}" = "" ]]; then
+  echo >&2 "Usage: $0 FOLDER"
+  exit 1
+fi
+
+# Ensure the template exists
+if [ ! -f "${STACK_TEMPLATE}" ]; then
+    echo >&2 "$STACK_TEMPLATE does not exist"
+    exit 1
+fi
+
+# Create the stack
+aws cloudformation create-stack \
+    --profile $AWS_PROFILE \
+    --stack-name $STACK_NAME \
+    --template-body "file://$STACK_TEMPLATE" \
+    --capabilities CAPABILITY_IAM
