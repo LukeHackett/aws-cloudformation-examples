@@ -17,13 +17,13 @@ fi
 
 # Ensure the template exists
 if [ ! -f "${STACK_TEMPLATE}" ]; then
-    echo >&2 "$STACK_TEMPLATE does not exist"
-    exit 1
+  echo >&2 "$STACK_TEMPLATE does not exist"
+  exit 1
 fi
 
 # Create the stack
 aws cloudformation update-stack \
-    --profile $AWS_PROFILE \
-    --stack-name $STACK_NAME \
-    --template-body "file://$STACK_TEMPLATE" \
-    --capabilities CAPABILITY_IAM
+  --profile $AWS_PROFILE \
+  --stack-name $STACK_NAME \
+  --template-body "file://$STACK_TEMPLATE" \
+  --capabilities CAPABILITY_IAM

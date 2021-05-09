@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Obtain details about the deployment
+AWS_PROFILE="${AWS_PROFILE:-personal}"
+STACK_NAME="$1"
+
+# Ensure project folder has been provided
+if [[ "$STACK_NAME" = "" ]]; then
+  echo >&2 "Usage: $0 FOLDER"
+  exit 1
+fi
+
+# Describe the stack
+aws cloudformation describe-stacks \
+  --profile $AWS_PROFILE \
+  --stack-name $STACK_NAME

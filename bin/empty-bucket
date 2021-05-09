@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Obtain details about the deployment
+AWS_PROFILE="${AWS_PROFILE:-personal}"
+BUCKET_NAME="$1"
+
+# Ensure bucket name has been provided
+if [[ $BUCKET_NAME = "" ]] || ! [[ $BUCKET_NAME =~ s3://.+ ]]; then
+  echo >&2 "Usage: $0 s3://BUCKET_NAME"
+  exit 1
+fi
+
+# Eecursively empty the bucket
+aws s3 rm $BUCKET_NAME \
+  --profile $AWS_PROFILE \
+  --recursive

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Obtains the full directory name of this script
+# https://stackoverflow.com/a/246128
+SCRIPT_DIR="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd ))"
+
+# Obtain details about the deployment
+AWS_PROFILE="${AWS_PROFILE:-personal}"
+BUCKET="$1"
+SOURCE="$SCRIPT_DIR/$2"
+
+# Ensure bucket name has been provided
+if [[ $BUCKET = "" ]] || ! [[ $BUCKET =~ s3://.+ ]]; then
+  echo >&2 "Usage: $0 s3://BUCKET_NAME SOURCE_FOLDER"
+  exit 1
+fi
+
+# Ensure the source directory exists
+if [[ $2 = "" ]] || [[ ! -d "$SOURCE" ]]; then
+  echo >&2 "$SOURCE does not exist"
+  exit 1
+fi
+
+# Upload the source files/directory to s3
+aws s3 cp $SOURCE $BUCKET \
+  --profile personal \
+  --recursive

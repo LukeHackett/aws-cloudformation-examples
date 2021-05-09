@@ -17,12 +17,12 @@ fi
 
 # Ensure the template directory exists
 if [ ! -d "${STACK_DIRECTORY}" ]; then
-    echo >&2 "$STACK_DIRECTORY does not exist"
-    exit 1
+  echo >&2 "$STACK_DIRECTORY does not exist"
+  exit 1
 fi
 
 # Create the stack
 aws cloudformation delete-stack \
-    --profile $AWS_PROFILE \
-    --stack-name $STACK_NAME
+  --profile $AWS_PROFILE \
+  --stack-name $STACK_NAME
 
