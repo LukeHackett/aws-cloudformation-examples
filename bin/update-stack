@@ -7,7 +7,7 @@ SCRIPT_DIR="$(dirname $( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && p
 # Obtain details about the deployment
 AWS_PROFILE="${AWS_PROFILE:-personal}"
 STACK_NAME="$1"
-STACK_TEMPLATE="${SCRIPT_DIR}/${STACK_NAME}/${STACK_NAME}.yaml"
+STACK_TEMPLATE="${SCRIPT_DIR}/${STACK_NAME}/template.yaml"
 
 # Ensure project folder has been provided
 if [[ "${STACK_NAME}" = "" ]]; then
